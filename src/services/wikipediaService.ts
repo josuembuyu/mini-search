@@ -6,7 +6,7 @@ import type {
 } from "@/types/search";
 import { FaWikipediaW } from "react-icons/fa";
 
-const WIKIPEDIA_API_URL = process.env.WIKIPEDIA_API_URL;
+const WIKIPEDIA_API_URL = process.env.NEXT_PUBLIC_WIKIPEDIA_API_URL;
 interface WikipediaAPIResponse {
   query: {
     search: Array<{

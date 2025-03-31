@@ -5,6 +5,7 @@ import { SearchProvider } from "@/context/SearchContext";
 import { motion } from "framer-motion";
 import SearchInput from "./SearchInput";
 import ServiceTabs from "./ServiceTabs";
+import SearchResults from "./SearchResults";
 
 const MiniSearch: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ const MiniSearch: React.FC = () => {
           </motion.div>
           <SearchInput />
           <ServiceTabs />
+          <SearchResults />
         </div>
       </div>
     </SearchProvider>

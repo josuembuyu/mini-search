@@ -6,7 +6,7 @@ import type {
 } from "@/types/search";
 import { FaStackOverflow } from "react-icons/fa";
 
-const STACK_OVERFLOW_API_URL = process.env.STACK_OVERFLOW_API_URL;
+const STACK_OVERFLOW_API_URL = process.env.NEXT_PUBLIC_STACK_OVERFLOW_API_URL;
 
 interface StackOverflowAPIResponse {
   items: Array<{

@@ -7,8 +7,8 @@ import type {
 
 import { FaGift } from "react-icons/fa";
 
-const GIPHY_API_KEY = process.env.GIPHY_API_KEY;
-const GIPHY_API_URL = process.env.GIPHY_API_URL;
+const GIPHY_API_KEY = process.env.NEXT_PUBLIC_GIPHY_API_KEY;
+const GIPHY_API_URL = process.env.NEXT_PUBLIC_GIPHY_API_URL;
 
 interface GiphyAPIResponse {
   data: Array<{
@@ -45,7 +45,7 @@ class GiphyService implements SearchService {
       const offset = (page - 1) * limit;
 
       const response = await baseAPI.get<GiphyAPIResponse>(
-        `${GIPHY_API_URL}/v1/gifs/search`,
+        `${GIPHY_API_URL}/gifs/search`,
         {
           params: {
             api_key: GIPHY_API_KEY,
