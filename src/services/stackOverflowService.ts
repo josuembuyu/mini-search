@@ -61,7 +61,7 @@ class StackOverflowService implements SearchService {
 
       return {
         results,
-        totalResults: response.data.total,
+        totalResults: response.data.total ?? response.data.items.length,
         hasMore: response.data.has_more,
       };
     } catch (error) {

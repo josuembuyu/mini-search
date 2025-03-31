@@ -20,6 +20,8 @@ const SearchResults: React.FC = () => {
     setPage,
     query,
     totalResults,
+    performSearch,
+    selectedSource,
   } = useSearch();
 
   const renderResultCard = (result: SearchResult, index: number) => {
@@ -36,7 +38,9 @@ const SearchResults: React.FC = () => {
   };
 
   const loadMore = () => {
-    setPage(page + 1);
+    const newPage = page + 1;
+    setPage(newPage);
+    performSearch(query, selectedSource, newPage);
   };
 
   // If there's no query, show an empty state
@@ -82,7 +86,7 @@ const SearchResults: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
         >
-          Found {totalResults.toLocaleString()} results for "{query}"
+          Found {(totalResults ?? 0).toLocaleString()} results for "{query}"
         </motion.div>
       )}
 
@@ -96,7 +100,10 @@ const SearchResults: React.FC = () => {
       {/* Results grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-5xl px-4">
         {results.map((result, index) => (
-          <div key={`${result.source}-${result.id}`} className="h-full">
+          <div
+            key={`${result.source}-${result.id}-${index}`}
+            className="h-full"
+          >
             {renderResultCard(result, index)}
           </div>
         ))}

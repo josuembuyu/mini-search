@@ -70,6 +70,7 @@ export const SearchProvider: React.FC<{ children: ReactNode }> = ({
         );
         if (serviceToUse) {
           const response = await serviceToUse.search(searchQuery, searchPage);
+          console.log(response);
           allResults = response.results;
           allTotal = response.totalResults;
           allHasMore = response.hasMore;
@@ -83,10 +84,10 @@ export const SearchProvider: React.FC<{ children: ReactNode }> = ({
 
         // Combine results
         allResults = responses.flatMap((response) => response.results);
-        allTotal = responses.reduce(
-          (sum, response) => sum + response.totalResults,
-          0
-        );
+        allTotal = responses.reduce((sum, response) => {
+          const total = Number(response.totalResults) || 0;
+          return sum + total;
+        }, 0);
         allHasMore = responses.some((response) => response.hasMore);
       }
 
