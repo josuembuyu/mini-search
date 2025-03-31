@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LuSearch, LuX } from "react-icons/lu";
 import { useSearch } from "@/context/SearchContext";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface SearchInputProps {
   onSearchSubmit?: () => void;
@@ -113,18 +113,7 @@ const SearchInput: React.FC<SearchInputProps> = memo(({ onSearchSubmit }) => {
             className="border-0 shadow-none h-14 px-5 text-lg bg-white dark:bg-gray-950 flex-grow rounded-full focus-visible:ring-0 focus-visible:ring-offset-0"
           />
 
-          <AnimatePresence>
-            {inputValue && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.2 }}
-              >
-                <ClearButton onClick={handleClear} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {inputValue && <ClearButton onClick={handleClear} />}
 
           <SearchButton disabled={loading || !inputValue.trim()} />
         </motion.div>

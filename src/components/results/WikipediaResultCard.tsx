@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import type { WikipediaResult } from "@/types/search";
 import { FaWikipediaW } from "react-icons/fa";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface WikipediaResultCardProps {
   result: WikipediaResult;
@@ -41,10 +42,12 @@ const WikipediaResultCard: React.FC<WikipediaResultCardProps> = ({
             <div className="flex gap-3">
               {result.thumbnail && (
                 <div className="flex-shrink-0 w-16 h-16 rounded overflow-hidden mt-1">
-                  <img
+                  <Image
                     src={result.thumbnail}
                     alt={result.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="64px"
                   />
                 </div>
               )}

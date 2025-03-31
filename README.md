@@ -101,6 +101,7 @@ Create a `.env` file with the following variables:
 NEXT_PUBLIC_STACK_OVERFLOW_API_URL=
 NEXT_PUBLIC_WIKIPEDIA_API_URL=
 NEXT_PUBLIC_GIPHY_API_URL=
+NEXT_PUBLIC_GIPHY_API_KEY=
 ```
 
 ## Future Enhancements

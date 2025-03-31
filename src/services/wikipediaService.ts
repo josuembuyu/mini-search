@@ -80,4 +80,6 @@ class WikipediaService implements SearchService {
   }
 }
 
-export default new WikipediaService();
+const wikipediaService = new WikipediaService();
+
+export default wikipediaService;

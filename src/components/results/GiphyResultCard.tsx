@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import type { GiphyResult } from "@/types/search";
 import { FaGift } from "react-icons/fa";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface GiphyResultCardProps {
   result: GiphyResult;
@@ -38,13 +39,15 @@ const GiphyResultCard: React.FC<GiphyResultCardProps> = ({ result, index }) => {
                 </div>
               )}
 
-              <img
+              <Image
                 src={result.previewUrl}
                 alt={result.title}
-                className={`w-full h-full object-cover transition-opacity duration-300 ${
+                fill
+                className={`object-cover transition-opacity duration-300 ${
                   isLoaded ? "opacity-100" : "opacity-0"
                 }`}
-                onLoad={() => setIsLoaded(true)}
+                onLoadingComplete={() => setIsLoaded(true)}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
 
               <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/60 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full">

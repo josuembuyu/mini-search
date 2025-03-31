@@ -75,4 +75,6 @@ class StackOverflowService implements SearchService {
   }
 }
 
-export default new StackOverflowService();
+const stackOverflowService = new StackOverflowService();
+
+export default stackOverflowService;

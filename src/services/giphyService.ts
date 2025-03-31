@@ -90,4 +90,6 @@ class GiphyService implements SearchService {
   }
 }
 
-export default new GiphyService();
+const giphyService = new GiphyService();
+
+export default giphyService;
