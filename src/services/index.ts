@@ -1,26 +1,22 @@
 import type { SearchService } from "@/types/search";
+import stackOverflowService from "./stackOverflowService";
+import wikipediaService from "./wikipediaService";
+import giphyService from "./giphyService";
 
+// Export all services
 export const services: SearchService[] = [
-  {
-    name: "GitHub",
-    search: async (query: string, page: number) => {
-      // TODO: Implement GitHub search
-      return {
-        results: [],
-        totalResults: 0,
-        hasMore: false,
-      };
-    },
-  },
-  {
-    name: "Stack Overflow",
-    search: async (query: string, page: number) => {
-      // TODO: Implement Stack Overflow search
-      return {
-        results: [],
-        totalResults: 0,
-        hasMore: false,
-      };
-    },
-  },
+  stackOverflowService,
+  wikipediaService,
+  giphyService,
 ];
+
+// Service map for easier lookup
+export const serviceMap: Record<string, SearchService> = {
+  stackoverflow: stackOverflowService,
+  wikipedia: wikipediaService,
+  giphy: giphyService,
+};
+
+export { default as stackOverflowService } from "./stackOverflowService";
+export { default as wikipediaService } from "./wikipediaService";
+export { default as giphyService } from "./giphyService";

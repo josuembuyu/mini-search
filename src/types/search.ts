@@ -43,6 +43,7 @@ export interface SearchResponse {
 
 // Search service interface
 export interface SearchService {
+  search: (query: string, page?: number) => Promise<SearchResponse>;
   name: string;
-  search: (query: string, page: number) => Promise<SearchResponse>;
+  icon: string;
 }
