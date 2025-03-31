@@ -1,46 +1,87 @@
 "use client";
 
 import type React from "react";
-import { useState, useEffect, type KeyboardEvent } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LuSearch, LuX } from "react-icons/lu";
 import { useSearch } from "@/context/SearchContext";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface SearchInputProps {
   onSearchSubmit?: () => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ onSearchSubmit }) => {
+const ClearButton = memo(({ onClick }: { onClick: () => void }) => (
+  <Button
+    type="button"
+    variant="ghost"
+    size="icon"
+    onClick={onClick}
+    className="absolute right-16 h-10 w-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+  >
+    <LuX className="w-5 h-5" />
+    <span className="sr-only">Clear search</span>
+  </Button>
+));
+
+const SearchButton = memo(({ disabled }: { disabled: boolean }) => (
+  <Button
+    type="submit"
+    variant="default"
+    size="icon"
+    disabled={disabled}
+    className="h-10 w-10 mr-2 rounded-full shadow-sm"
+  >
+    <LuSearch className="w-5 h-5" />
+    <span className="sr-only">Search</span>
+  </Button>
+));
+
+const SearchInput: React.FC<SearchInputProps> = memo(({ onSearchSubmit }) => {
   const { query, setQuery, performSearch, loading } = useSearch();
   const [inputValue, setInputValue] = useState(query);
   const [isFocused, setIsFocused] = useState(false);
 
-  // Sync input value with query
   useEffect(() => {
     setInputValue(query);
   }, [query]);
 
-  const handleSubmit = (e?: React.FormEvent) => {
-    e?.preventDefault();
-    if (inputValue.trim() === "") return;
+  const handleSubmit = useCallback(
+    (e?: React.FormEvent) => {
+      e?.preventDefault();
+      if (inputValue.trim() === "") return;
 
-    setQuery(inputValue);
-    performSearch(inputValue);
-    onSearchSubmit?.();
-  };
+      setQuery(inputValue);
+      performSearch(inputValue);
+      onSearchSubmit?.();
+    },
+    [inputValue, setQuery, performSearch, onSearchSubmit]
+  );
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSubmit();
-    }
-  };
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        handleSubmit();
+      }
+    },
+    [handleSubmit]
+  );
 
-  const handleClear = () => {
+  const handleClear = useCallback(() => {
     setInputValue("");
     setQuery("");
-  };
+  }, [setQuery]);
+
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setInputValue(e.target.value);
+    },
+    []
+  );
+
+  const handleFocus = useCallback(() => setIsFocused(true), []);
+  const handleBlur = useCallback(() => setIsFocused(false), []);
 
   return (
     <motion.div
@@ -65,40 +106,33 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearchSubmit }) => {
             type="text"
             placeholder="Search across the web..."
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             className="border-0 shadow-none h-14 px-5 text-lg bg-white dark:bg-gray-950 flex-grow rounded-full focus-visible:ring-0 focus-visible:ring-offset-0"
           />
 
-          {inputValue && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={handleClear}
-              className="absolute right-16 h-10 w-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-              <LuX className="w-5 h-5" />
-              <span className="sr-only">Clear search</span>
-            </Button>
-          )}
+          <AnimatePresence>
+            {inputValue && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ClearButton onClick={handleClear} />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          <Button
-            type="submit"
-            variant="default"
-            size="icon"
-            disabled={loading || !inputValue.trim()}
-            className="h-10 w-10 mr-2 rounded-full shadow-sm"
-          >
-            <LuSearch className="w-5 h-5" />
-            <span className="sr-only">Search</span>
-          </Button>
+          <SearchButton disabled={loading || !inputValue.trim()} />
         </motion.div>
       </form>
     </motion.div>
   );
-};
+});
+
+SearchInput.displayName = "SearchInput";
 
 export default SearchInput;
