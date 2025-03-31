@@ -3,6 +3,7 @@
 import type React from "react";
 import { SearchProvider } from "@/context/SearchContext";
 import { motion } from "framer-motion";
+import SearchInput from "./SearchInput";
 
 const MiniSearch: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const MiniSearch: React.FC = () => {
               Search across your favorite platforms in one place
             </p>
           </motion.div>
+          <SearchInput />
         </div>
       </div>
     </SearchProvider>
